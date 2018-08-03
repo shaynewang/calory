@@ -30,11 +30,12 @@ class api:
             if response.status_code == 200:
                 # 20 branded and 20 common foods results are
                 # returned but we are only using the top result
+                food_list = json.loads(response.text)
                 if mode == "first common":
                     # no calories information available
-                    return json.loads(response.text)["common"][0]
+                    return food_list["common"][0]
                 elif mode == "first branded":
-                    return json.loads(response.text)["branded"][0]
+                    return food_list["branded"][0]
                 else:
                     # maybe insert better logic to 
                     # return more accurate search result
