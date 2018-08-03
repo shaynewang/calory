@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Nutrition Information</h2>
+        {% for info in food_info %}
+        <p class=entry>
+		{{ info }}
+		</p>
+        {% endfor %}}
+{% endblock %}
