@@ -51,7 +51,7 @@ def info(image):
     food_info = []
     # process image to get a list of food names
     if image == "test":
-        foods = ["Apple","pepperoni pizza","coke"]
+        foods = ["granny smith apple","pepperoni pizza","coke"]
     for food in foods:
         food_info.append(nxapi.get_calories(food))
     return render_template("info.html", food_info=food_info)
