@@ -2,6 +2,8 @@ import os
 from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
+from lib import nutritionix as nx
+
 HOST = "0.0.0.0"
 PORT = 8003
 IMG_EXTN = set(["jpg","jpeg","png","tiff","bmp","gif"])
@@ -12,6 +14,7 @@ if not os.path.isdir(DOWNLOADS):
     os.mkdir(DOWNLOADS)
 
 app = Flask(__name__)
+nxapi = nx.api()
 
 def is_image_file(filename):
     """
@@ -24,6 +27,10 @@ def is_image_file(filename):
 def index():
     return render_template("index.html")
 
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")
+
 @app.route("/submit", methods=["GET","POST"])
 def submit():
     """
@@ -34,7 +41,20 @@ def submit():
         if image.filename != "" and is_image_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(DOWNLOADS,filename))
-    return render_template("submit.html")
+    return redirect("/info/test")
+
+@app.route("/info/<image>")
+def info(image):
+    """
+    Display information for foods
+    """
+    food_info = []
+    # process image to get a list of food names
+    if image == "test":
+        foods = ["Apple","pepperoni pizza","coke"]
+    for food in foods:
+        food_info.append(nxapi.get_calories(food))
+    return render_template("info.html", food_info=food_info)
 
 if __name__ == "__main__":
     app.run(host=HOST,port=PORT,debug=True)
