@@ -36,12 +36,13 @@ def submit():
     """
     View for file submission
     """
-    if "file" in request.files:
-        image = request.files["file"]
-        if image.filename != "" and is_image_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(DOWNLOADS,filename))
-    return redirect("/info/{0}".format(filename))
+    if request.method == "POST":
+        if "file" in request.files:
+            image = request.files["file"]
+            if image.filename != "" and is_image_file(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(DOWNLOADS,filename))
+    return redirect("upload") # redirect here is handled by Dropzone
 
 @app.route("/info/<image>")
 def info(image):
@@ -50,7 +51,7 @@ def info(image):
     """
     food_info = []
     # process image to get a list of food names
-    if image == "test":
+    if image == "test.jpg":
         foods = ["granny smith apple","pepperoni pizza","coke"]
     for food in foods:
         food_info.append(nxapi.get_calories(food))
