@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <h2>Nutrition Information</h2>
-        {% for info in food_info %}
+    {% for info in food_info %}
         <p class=entry>
 		{{ info }}
 		</p>
-        {% endfor %}
+    {% endfor %}
+    <a href={{url_for('upload')}}>
+        <button name="Upload">Try another image</button>
+    </a>
 {% endblock %}
