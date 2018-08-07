@@ -41,7 +41,7 @@ def submit():
         if image.filename != "" and is_image_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(DOWNLOADS,filename))
-    return redirect("/info/test")
+    return redirect("/info/{0}".format(filename))
 
 @app.route("/info/<image>")
 def info(image):
