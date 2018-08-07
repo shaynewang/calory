@@ -1,0 +1,33 @@
+.file-upload {
+	position: relative;
+	display: inline-block;
+}
+
+.file-upload_label {
+  padding: 1em 2em;
+  color: #fff;
+  background: #222;
+  border-radius: .4em;
+  transition: background .3s;
+  cursor: pointer;
+
+  label:hover {
+     background: teal;
+  }
+}
+
+.button{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 1;
+    width: 25px;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  input:hover {
+     background: teal;
+  }
+}
