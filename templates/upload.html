@@ -1,8 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
+    <head>
+        <link rel='stylesheet' href='static/css/dropzone.css'>
+    <script src="../static/js/dropzone.js"></script>
+    <script>
+    Dropzone.options.upload= {
+      maxFiles: 1,
+      acceptedFiles: "image/*",
+      dictDefaultMessage: "Drop an image file here to get started",
+      init: function() {
+        this.on("addedfile", function(file) {
+            window.location.replace("/info/" + file.name);
+        });
+      }
+    };
+    </script>
+    </head>
     <h2>Upload a picture</h2>
-    <form action={{url_for('submit')}} method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+    <form action={{url_for('submit')}} method=post enctype=multipart/form-data
+      class="dropzone"
+      id="upload">
     </form>
+    <a href={{url_for('index')}}>
+        <button name="Home">Home</button>
+    </a>
 {% endblock %}
