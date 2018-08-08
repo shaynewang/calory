@@ -9,4 +9,20 @@
     <a href={{url_for('upload')}}>
         <button name="Upload">Try another image</button>
     </a>
+
+    <form action="{{ url_for('translated') }}" method="post">
+        <textarea style="display:none;" name=info>
+{% for info in food_info %}
+{{ info }}
+{% endfor %}
+        </textarea></p>
+        <p>
+        <p>Select your language:
+        <select name=lang>
+            {% for lang in languages %}
+            <option value={{lang.language}}>{{lang.name}}</option>
+            {% endfor %}
+        </select>
+        <input type=submit value=POST></p>
+    </form>
 {% endblock %}

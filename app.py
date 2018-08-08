@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from lib import nutritionix as nx
+from lib.translator import Translator
 
 HOST = "0.0.0.0"
 PORT = 8003
@@ -15,6 +16,7 @@ if not os.path.isdir(DOWNLOADS):
 
 app = Flask(__name__)
 nxapi = nx.api()
+trans = Translator()
 
 def is_image_file(filename):
     """
@@ -55,7 +57,24 @@ def info(image):
         foods = ["granny smith apple","pepperoni pizza","coke"]
     for food in foods:
         food_info.append(nxapi.get_calories(food))
-    return render_template("info.html", food_info=food_info)
+    languages = trans.available_languages()
+    return render_template("info.html", food_info=food_info, languages=languages)
+
+@app.route("/info/translated", methods=["POST"])
+def translated():
+    """
+    Display translated information for foods
+    """
+    if request.method == "POST":
+        food_info = []
+        info = request.form["info"].split("\r\n")
+        print(info)
+        lang = request.form["lang"]
+        food_info = [trans.translate(i,lang) for i in info if i.strip()]
+        print(food_info)
+        languages = trans.available_languages()
+    return render_template("info.html", food_info=food_info, languages=languages)
+
 
 if __name__ == "__main__":
     app.run(host=HOST,port=PORT,debug=True)
