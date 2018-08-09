@@ -70,6 +70,9 @@ class api:
             query_result = self.search(food,mode)
         elif mode == "common":
             query_result = self.common_food_nutrition(food)
+
+        if not query_result:
+            return ""
         return "{0}: {1} Cal per {2}".format(query_result["food_name"],
                 query_result["nf_calories"]/query_result["serving_qty"],
                 query_result["serving_unit"])
