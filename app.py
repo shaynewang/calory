@@ -52,20 +52,13 @@ def info(image):
     """
     Display information for foods
     """
-    food_info = []
-    # process image to get a list of food names
-    # if image == "test.jpg":
-        # foods = ["granny smith apple","pepperoni pizza","coke"]
+    food_info = set()
 
     # get list of labels using image path
     # expects image is in downloads/
     foods = vs.detect_image(os.path.join(DOWNLOADS, image) )
-    for food in foods:
-        print("food:", food)
-        try:
-            food_info.append(nxapi.get_calories(food))
-        except Exception as identifier:
-            print(identifier)
+    for food in set(foods):
+        food_info.add(nxapi.get_calories(food))
     languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, languages=languages)
 
@@ -77,10 +70,8 @@ def translated():
     if request.method == "POST":
         food_info = []
         info = request.form["info"].split("\r\n")
-        print(info)
         lang = request.form["lang"]
         food_info = [trans.translate(i,lang) for i in info if i.strip()]
-        print(food_info)
         languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, languages=languages)
 
