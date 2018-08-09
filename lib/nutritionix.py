@@ -14,6 +14,27 @@ class api:
         self.x_app_id  = os.getenv("NUTRITIONIX_APP_ID")
         self.x_app_key = os.getenv("NUTRITIONIX_KEY")
 
+    def common_food_nutrition(self, food):
+        """
+        Get nutrition values for natural foods
+        using Nutritionx API
+        """
+        headers = {
+                   "x-app-id":self.x_app_id,
+                   "x-app-key":self.x_app_key,
+                   }
+        common_query = "/natural/nutrients?query={food}".format(food=food)
+        request_url = self.end_point+common_query
+        try:
+            b = {"query":food}
+            response = requests.post(request_url,headers=headers,data=b)
+            if response.status_code == 200:
+                food_list = json.loads(response.text)
+                return food_list["foods"][0]
+        except Exception as e:
+            raise e
+        return ""
+
     def search(self, food, mode="first branded"):
         """
         Search for food in nutritionix database
@@ -31,10 +52,7 @@ class api:
                 # 20 branded and 20 common foods results are
                 # returned but we are only using the top result
                 food_list = json.loads(response.text)
-                if mode == "first common":
-                    # no calories information available
-                    return food_list["common"][0]
-                elif mode == "first branded":
+                if mode == "first branded":
                     return food_list["branded"][0]
                 else:
                     # maybe insert better logic to 
@@ -44,17 +62,20 @@ class api:
             raise e
         return "error"
 
-    def get_calories(self, food, mode="first branded"):
+    def get_calories(self, food, mode="common"):
         """
         Return food name and its calories per serving
         """
-        query_result = self.search(food,mode)
+        if "branded" in mode:
+            query_result = self.search(food,mode)
+        elif mode == "common":
+            query_result = self.common_food_nutrition(food)
         return "{0}: {1} Cal per {2}".format(query_result["food_name"],
                 query_result["nf_calories"]/query_result["serving_qty"],
                 query_result["serving_unit"])
 
 if __name__ == "__main__":
     nxapi= api()
-    print(nxapi.get_calories("pepperoni pizza"))
-    print(nxapi.get_calories("Godiva Chocolate"))
-    print(nxapi.get_calories("Granny Smith apple"))
+    #print(nxapi.get_calories("pepperoni pizza"))
+    #print(nxapi.get_calories("Godiva Chocolate"))
+    #print(nxapi.get_calories("Granny Smith apple"))
