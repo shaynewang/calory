@@ -12,9 +12,7 @@
 
     <form action="{{ url_for('translated') }}" method="post">
         <textarea style="display:none;" name=info>
-{% for info in food_info %}
-{{ info }}
-{% endfor %}
+        {% for info in food_info_en %}{{ info }}{% endfor %}
         </textarea></p>
         <p>
         <p>Select your language:
