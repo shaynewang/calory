@@ -1,3 +1,5 @@
 env
 *.pyc
 downloads
+.vscode/
+cloudmlapis.json
