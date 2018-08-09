@@ -56,11 +56,12 @@ def info(image):
 
     # get list of labels using image path
     # expects image is in downloads/
-    foods = vs.detect_image(os.path.join(DOWNLOADS, image) )
+    foods = vs.detect_image(os.path.abspath(os.path.join(DOWNLOADS, image)))
     for food in set(foods):
+        print(food)
         food_info.add(nxapi.get_calories(food))
     languages = trans.available_languages()
-    return render_template("info.html", food_info=food_info, languages=languages)
+    return render_template("info.html", food_info=food_info, food_info_en=food_info, languages=languages)
 
 @app.route("/info/translated", methods=["POST"])
 def translated():
@@ -71,9 +72,10 @@ def translated():
         food_info = []
         info = request.form["info"].split("\r\n")
         lang = request.form["lang"]
+        food_info_en = [i for i in info if i.strip()]
         food_info = [trans.translate(i,lang) for i in info if i.strip()]
         languages = trans.available_languages()
-    return render_template("info.html", food_info=food_info, languages=languages)
+    return render_template("info.html", food_info=food_info, food_info_en=food_info_en, languages=languages)
 
 
 if __name__ == "__main__":
