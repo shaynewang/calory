@@ -9,7 +9,7 @@
       acceptedFiles: "image/*",
       dictDefaultMessage: "Drop an image file here to get started",
       init: function() {
-        this.on("addedfile", function(file) {
+        this.on("success", function(file) {
             window.location.replace("/info/" + file.name);
         });
       }
