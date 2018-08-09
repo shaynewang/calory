@@ -1,5 +1,5 @@
-# from detect
-import detect as api
+# from .detect import *
+from lib import detect as api
 import sys
 
 

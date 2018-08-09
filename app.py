@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from lib import nutritionix as nx
+from lib import vision as vs
 from lib.translator import Translator
 
 HOST = "0.0.0.0"
@@ -53,10 +54,18 @@ def info(image):
     """
     food_info = []
     # process image to get a list of food names
-    if image == "test.jpg":
-        foods = ["granny smith apple","pepperoni pizza","coke"]
+    # if image == "test.jpg":
+        # foods = ["granny smith apple","pepperoni pizza","coke"]
+
+    # get list of labels using image path
+    # expects image is in downloads/
+    foods = vs.detect_image(os.path.join(DOWNLOADS, image) )
     for food in foods:
-        food_info.append(nxapi.get_calories(food))
+        print("food:", food)
+        try:
+            food_info.append(nxapi.get_calories(food))
+        except Exception as identifier:
+            print(identifier)
     languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, languages=languages)
 
