@@ -31,6 +31,10 @@ class api:
             if response.status_code == 200:
                 food_list = json.loads(response.text)
                 return food_list["foods"][0]
+            else:
+                if "We couldn't match any of your foods" in response.text:
+                    return ""
+                print(response.status_code,response.text)
         except Exception as e:
             raise e
         return ""
