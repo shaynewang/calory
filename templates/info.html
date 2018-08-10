@@ -11,10 +11,8 @@
     </a>
 
     <form action="{{ url_for('translated') }}" method="post">
-        <textarea style="display:none;" name=info>
-        {% for info in food_info_en %} {{ info }} {% endfor %}
-        </textarea></p>
-        <p>
+<textarea style="display:none;" name=info>{% for info in food_info_en %}{{ info }}
+{% endfor %}</textarea>
         <p>Select your language:
         <select name=lang>
             {% for lang in languages %}

@@ -73,7 +73,7 @@ def translated():
         info = request.form["info"].split("\r\n")
         lang = request.form["lang"]
         food_info_en = [i for i in info if i.strip()]
-        food_info = [trans.translate(i,lang) for i in info if i.strip()]
+        food_info = [trans.translate(i,lang) for i in food_info_en]
         languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, food_info_en=food_info_en, languages=languages)
 
