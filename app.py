@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
+from flask_sslify import SSLify
 from werkzeug.utils import secure_filename
 
 from lib import foodinfo as finfo
@@ -10,12 +11,14 @@ HOST = "0.0.0.0"
 PORT = 8080
 IMG_EXTN = set(["jpg","jpeg","png","tiff","bmp","gif"])
 
+FORCE_HTTPS = True
 # remove for production
 DOWNLOADS = "downloads" 
 if not os.path.isdir(DOWNLOADS):
     os.mkdir(DOWNLOADS)
 
 app = Flask(__name__)
+if FORCE_HTTPS: sslify = SSLify(app)
 trans = Translator()
 
 def is_image_file(filename):
