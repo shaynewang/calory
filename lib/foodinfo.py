@@ -1,6 +1,8 @@
 from .nutritionix import api
 from .cache_data import nutrition_cache
 
+DEBUG = False
+
 nxapi = api()
 cache_client = nutrition_cache()
 
@@ -25,15 +27,17 @@ def get_foodinfo(food_name):
     make an api call
     """
     cached = get_cached_info(food_name)
-    #print("cached: ", cached)
+    if DEBUG: print("Getting nutrition info for {0} from cache".format(food_name))
     if not cached:
-        print("making api call",food_name)
+        if DEBUG: print("making api call",food_name)
         response = nxapi.common_food_nutrition(food_name)
         if not response:
             response = {"food_name":food_name}
-        print(response)
+        # cache result for both foodname in the query and response
         saved = update_cached_info(response)
-        print("saved: ", saved)
+        response.update({"food_name":food_name})
+        saved = update_cached_info(response)
+        if DEBUG: print("saved result to cache: ", saved)
         return get_cached_info(food_name)
     return cached
 
@@ -42,6 +46,7 @@ def get_calories(food_name):
     Return food name and its calories per serving
     """
     query_result = get_foodinfo(food_name)
+    # return empty string if no calories information available
     if not query_result or "nf_calories" not in query_result.keys():
         return ""
     return "{0}: {1} Cal per {2}".format(query_result["food_name"],

@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
-from lib import nutritionix as nx
+from lib import foodinfo as finfo
 from lib import vision as vs
 from lib.translator import Translator
 
@@ -16,7 +16,6 @@ if not os.path.isdir(DOWNLOADS):
     os.mkdir(DOWNLOADS)
 
 app = Flask(__name__)
-nxapi = nx.api()
 trans = Translator()
 
 def is_image_file(filename):
@@ -58,8 +57,7 @@ def info(image):
     # expects image is in downloads/
     foods = vs.detect_image(os.path.abspath(os.path.join(DOWNLOADS, image)))
     for food in set(foods):
-        print(food)
-        food_info.add(nxapi.get_calories(food))
+        food_info.add(finfo.get_calories(food))
     languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, food_info_en=food_info, languages=languages)
 
