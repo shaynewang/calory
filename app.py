@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 from lib import foodinfo as finfo
@@ -7,7 +7,7 @@ from lib import vision as vs
 from lib.translator import Translator
 
 HOST = "0.0.0.0"
-PORT = 8003
+PORT = 8080
 IMG_EXTN = set(["jpg","jpeg","png","tiff","bmp","gif"])
 
 # remove for production
@@ -44,7 +44,7 @@ def submit():
             if image.filename != "" and is_image_file(image.filename):
                 filename = secure_filename(image.filename)
                 image.save(os.path.join(DOWNLOADS,filename))
-    return redirect("upload") # redirect here is handled by Dropzone
+    return redirect(url_for("upload")) # redirect here is handled by Dropzone
 
 @app.route("/info/<image>")
 def info(image):
@@ -61,7 +61,7 @@ def info(image):
         # remove image file after food labels are detected
         os.remove(image_path)
     except:
-        return redirect("upload")
+        return redirect(url_for("upload"))
     for food in set(foods):
         food_info.add(finfo.get_calories(food))
     food_info.remove('')
