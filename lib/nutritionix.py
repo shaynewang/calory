@@ -34,6 +34,8 @@ class api:
             else:
                 if "We couldn't match any of your foods" in response.text:
                     return ""
+                elif response.status_code == 401 or response.text["message"] == "usage limits exceeded":
+                    raise Exception("api usage limits exceeded")
                 print(response.status_code,response.text)
         except Exception as e:
             raise e
