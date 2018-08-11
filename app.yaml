@@ -1,0 +1,13 @@
+entrypoint: gunicorn -b :8080 app:app
+env: flex
+runtime: python
+env_variables:
+  GOOGLE_APPLICATION_CREDENTIALS: "Xin-Wang-de9a9df354bb.json"
+  NUTRITIONIX_KEY: ""
+  NUTRITIONIX_APP_ID: ""
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 0.2
+  memory_gb: 0.6
+  disk_size_gb: 10
