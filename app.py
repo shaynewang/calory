@@ -47,7 +47,7 @@ def submit():
             if image.filename != "" and is_image_file(image.filename):
                 filename = secure_filename(image.filename)
                 image.save(os.path.join(DOWNLOADS,filename))
-    return redirect(url_for("upload")) # redirect here is handled by Dropzone
+    return render_template("upload.html")
 
 @app.route("/info/<image>")
 def info(image):
