@@ -11,14 +11,14 @@ HOST = "0.0.0.0"
 PORT = 8080
 IMG_EXTN = set(["jpg","jpeg","png","tiff","bmp","gif"])
 
-FORCE_HTTPS = True
+FORCE_HTTPS = False
 # remove for production
 DOWNLOADS = "downloads" 
 if not os.path.isdir(DOWNLOADS):
     os.mkdir(DOWNLOADS)
 
 app = Flask(__name__)
-if FORCE_HTTPS: sslify = SSLify(app)
+if FORCE_HTTPS: sslify = SSLify(app,subdomains=True)
 trans = Translator()
 
 def is_image_file(filename):
@@ -89,4 +89,4 @@ def translated():
 
 
 if __name__ == "__main__":
-    app.run(host=HOST,port=PORT,debug=True)
+    app.run(host=HOST,port=PORT,debug=not FORCE_HTTPS)
