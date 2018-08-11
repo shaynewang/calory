@@ -49,7 +49,7 @@ def get_calories(food_name):
         query_result = get_foodinfo(food_name)
     except Exception as e:
         if "limits exceeded" in str(e):
-            return str(e) + " only display cached calories information."
+            return str(e) + ", only displaying cached calories information."
     # return empty string if no calories information available
     if not query_result or "nf_calories" not in query_result.keys():
         return ""
