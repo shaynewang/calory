@@ -67,7 +67,7 @@ def info(image):
         return redirect(url_for("upload"))
     for food in set(foods):
         food_info.add(finfo.get_calories(food))
-    food_info.remove('')
+    if '' in food_info: food_info.remove('')
     if not food_info or food_info == (''):
         food_info.add("No calories information found...")
     languages = trans.available_languages()
