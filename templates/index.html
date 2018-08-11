@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>Calory</h1>
+<p>Note: we are using free API subscriptions
+ to get the calories information. Limited number of 
+ queries can be made per day.</p>
 <a href="{{ url_for('upload') }}">
     <button name="Upload">Start Here</button>
 </a>

@@ -21,6 +21,11 @@
             this.on("success", function(file) {
                 window.location.replace("/info/" + random_filename+"."+file.name.split(".")[1]);
             });
+            this.on("addedfile", function(file) {
+                document.getElementById("message").innerHTML = "Image "+file.name+
+                    " has been added. Please be patient when we are querying nutrition information..";
+                document.getElementById("message").style.visibility = "visible";
+            });
           }
         };
         </script>
@@ -30,6 +35,7 @@
         <button name="Home">Home</button>
     </a>
     <h2>Upload a picture</h2>
+    <div id="message" style="display:hidden;"></div>
     <form action={{url_for('submit')}} method=post enctype=multipart/form-data
       class="dropzone"
       id="upload">
