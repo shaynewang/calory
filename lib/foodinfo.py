@@ -8,7 +8,10 @@ def get_cached_info(food_name):
     """
     Get food info from cache
     """
-    return cache_client.select(food_name)
+    cached = cache_client.select(food_name)
+    if cached:
+        return cached[0]
+    return None
 
 def update_cached_info(food_info):
     """
@@ -22,19 +25,25 @@ def get_foodinfo(food_name):
     make an api call
     """
     cached = get_cached_info(food_name)
-    print("cached: ", cached)
+    #print("cached: ", cached)
     if not cached:
-        print("making api call")
+        print("making api call",food_name)
         response = nxapi.common_food_nutrition(food_name)
+        if not response:
+            response = {"food_name":food_name}
         print(response)
-        print("saved: ", update_cached_info(response))
+        saved = update_cached_info(response)
+        print("saved: ", saved)
         return get_cached_info(food_name)
+    return cached
 
 def get_calories(food_name):
     """
     Return food name and its calories per serving
     """
     query_result = get_foodinfo(food_name)
+    if not query_result or "nf_calories" not in query_result.keys():
+        return ""
     return "{0}: {1} Cal per {2}".format(query_result["food_name"],
             query_result["nf_calories"]/query_result["serving_qty"],
             query_result["serving_unit"])
