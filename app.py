@@ -55,7 +55,13 @@ def info(image):
 
     # get list of labels using image path
     # expects image is in downloads/
-    foods = vs.detect_image(os.path.abspath(os.path.join(DOWNLOADS, image)))
+    image_path = os.path.join(DOWNLOADS,image)
+    try:
+        foods = vs.detect_image(image_path)
+        # remove image file after food labels are detected
+        os.remove(image_path)
+    except:
+        return redirect("upload")
     for food in set(foods):
         food_info.add(finfo.get_calories(food))
     food_info.remove('')
