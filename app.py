@@ -58,6 +58,9 @@ def info(image):
     foods = vs.detect_image(os.path.abspath(os.path.join(DOWNLOADS, image)))
     for food in set(foods):
         food_info.add(finfo.get_calories(food))
+    food_info.remove('')
+    if not food_info or food_info == (''):
+        food_info.add("No calories information found...")
     languages = trans.available_languages()
     return render_template("info.html", food_info=food_info, food_info_en=food_info, languages=languages)
 
