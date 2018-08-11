@@ -66,23 +66,5 @@ class api:
             raise e
         return "error"
 
-    def get_calories(self, food, mode="common"):
-        """
-        Return food name and its calories per serving
-        """
-        if "branded" in mode:
-            query_result = self.search(food,mode)
-        elif mode == "common":
-            query_result = self.common_food_nutrition(food)
-
-        if not query_result:
-            return ""
-        return "{0}: {1} Cal per {2}".format(query_result["food_name"],
-                query_result["nf_calories"]/query_result["serving_qty"],
-                query_result["serving_unit"])
-
 if __name__ == "__main__":
     nxapi= api()
-    #print(nxapi.get_calories("pepperoni pizza"))
-    #print(nxapi.get_calories("Godiva Chocolate"))
-    #print(nxapi.get_calories("Granny Smith apple"))
