@@ -13,7 +13,7 @@ IMG_EXTN = set(["jpg","jpeg","png","tiff","bmp","gif"])
 
 FORCE_HTTPS = False
 # remove for production
-DOWNLOADS = "downloads" 
+DOWNLOADS = "static/downloads" 
 if not os.path.isdir(DOWNLOADS):
     os.mkdir(DOWNLOADS)
 
@@ -62,7 +62,7 @@ def info(image):
     try:
         foods = vs.detect_image(image_path)
         # remove image file after food labels are detected
-        os.remove(image_path)
+        #os.remove(image_path)
     except:
         return redirect(url_for("upload"))
     for food in set(foods):
@@ -71,7 +71,7 @@ def info(image):
     if not food_info or food_info == (''):
         food_info.add("No calories information found...")
     languages = trans.available_languages()
-    return render_template("info.html", food_info=food_info, food_info_en=food_info, languages=languages)
+    return render_template("info.html",image=image, food_info=food_info, food_info_en=food_info, languages=languages)
 
 @app.route("/info/translated", methods=["POST"])
 def translated():
@@ -82,10 +82,11 @@ def translated():
         food_info = []
         info = request.form["info"].split("\r\n")
         lang = request.form["lang"]
+        image = request.form["image"]
         food_info_en = [i for i in info if i.strip()]
         food_info = [trans.translate(i,lang) for i in food_info_en]
         languages = trans.available_languages()
-    return render_template("info.html", food_info=food_info, food_info_en=food_info_en, languages=languages)
+    return render_template("info.html",image=image, food_info=food_info, food_info_en=food_info_en, languages=languages)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h2>Nutrition Information</h2>
+    <p><img src="{{ url_for('static',filename='downloads/'+image) }}" width=200></p>
     {% for info in food_info %}
         <p class=entry>
 		{{ info }}
@@ -13,6 +14,7 @@
     <form action="{{ url_for('translated') }}" method="post">
 <textarea style="display:none;" name=info>{% for info in food_info_en %}{{ info }}
 {% endfor %}</textarea>
+<textarea style="display:none;" name=image>{{ image }}</textarea>
         <p>Select your language:
         <select name=lang>
             {% for lang in languages %}
