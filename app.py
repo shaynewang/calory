@@ -30,23 +30,47 @@ def is_image_file(filename):
     return "." in filename and filename.split(".")[-1].lower() in IMG_EXTN
 
 def get_calories_threaded(food,food_info):
+    """
+    Worker function to use for get calories
+    multithreadly
+    args:
+        food: str
+        food_info: set
+    """
     food_info.add(finfo.get_calories(food))
 
 def translate_threaded(i,lang,food_info):
+    """
+    Worker function to use for get calories
+    multithreadly
+    args:
+        i: str
+        lang: str
+        food_info: set
+    """
     food_info.add(trans.translate(i,lang))
 
 @app.route("/")
 def index():
+    """
+    View for landing page
+    """
     return render_template("index.html")
 
 @app.route("/upload")
 def upload():
+    """
+    View for file upload
+    """
     return render_template("upload.html")
 
 @app.route("/submit", methods=["GET","POST"])
 def submit():
     """
-    View for file submission
+    Handles POST request for file upload
+    save file to download location
+    expected form field:
+        file: file object to be saved
     """
     if request.method == "POST":
         if "file" in request.files:
@@ -60,6 +84,16 @@ def submit():
 def info(image):
     """
     Display information for foods
+    - detects food labels in an image
+    - lookup calories information for food labels
+    - send calories information for food labels
+    args:
+        image: str
+    return:
+        image: image filename
+        food_info: food calories information
+        food_info_en: food calories information in original language(en)
+        languages: list of languages available to translate to
     """
     food_info = set()
 
@@ -93,7 +127,16 @@ def info(image):
 @app.route("/info/translated", methods=["POST"])
 def translated():
     """
-    Display translated information for foods
+    Handles POST request to translated information for foods
+    expected form fields:
+        info: multiline calories information in original language(en)
+        lang: code for target language to translate to
+        image: image filename
+    return:
+        image: image filename
+        food_info: translated food calories information
+        food_info_en: food calories information in original language(en)
+        languages: list of languages available to translate to
     """
     if request.method == "POST":
         food_info = set()
