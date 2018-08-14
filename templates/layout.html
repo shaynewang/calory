@@ -1,9 +1,46 @@
 <!doctype html>
 <html>
+	 <!-- Required meta tags -->
+	 <meta charset="utf-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+	 <!-- Bootstrap CSS -->
+	 <link rel="stylesheet"
+	 href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	 integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	 crossorigin="anonymous">
+	 <div class=App-header>
+
+	 <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}" >
+	 <center><img src="../static/icon/orange.svg" class="App-logo" alt="logo" /></center>
+	 </div>
+	 <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}" > -->
+	 <!-- <center><img src="../static/downloads/orange.svg" class="App-logo" alt="logo" /></center> -->
+	 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="{{ url_for('index')}}" >Home</a>
+			  <ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+				  <a class="navbar-brand" href="{{ url_for('upload') }}">Upload</a>
+				</li> 
+			</div>
+	 </nav>
+
+		  <div class="container">
+				<div class="row">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+					<div class=page>
+						{% block content %}{% endblock %}
+						</div>
+				  </div>
+				  <div class="col-sm-2">
+				  </div>
+				</div>
+			  </div>	
 	<title>Calory</title>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
-	<div class=page>
-		{% block content %}{% endblock %}
-	</div>
+	<link rel=stylesheet type=text/css href="{{ url_for('static',
+	filename='css/style.css') }}">
+	
 </html>
 
