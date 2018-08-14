@@ -31,10 +31,7 @@
         </script>
     </head>
 
-    <a href={{url_for('index')}}>
-        <button name="Home">Home</button>
-    </a>
-    <h2>Upload a picture</h2>
+    <center><h2 style="color:#92B6D5">Upload a picture</h2></center>
     <div id="message" style="display:hidden;"></div>
     <form action={{url_for('submit')}} method=post enctype=multipart/form-data
       class="dropzone"
