@@ -53,6 +53,6 @@ def get_calories(food_name):
     # return empty string if no calories information available
     if not query_result or "nf_calories" not in query_result.keys():
         return ""
-    return "{0}: {1} Cal per {2}".format(query_result["food_name"],
-            query_result["nf_calories"]/query_result["serving_qty"],
+    return "{0}: {1} calories per {2}".format(query_result["food_name"],
+            int(query_result["nf_calories"]/query_result["serving_qty"]),
             query_result["serving_unit"])
