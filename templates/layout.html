@@ -12,16 +12,31 @@
 	 <div class=App-header>
 
 	 <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}" >
-	 <center><img src="../static/icon/orange.svg" class="App-logo" alt="logo" /></center>
+	 <center>
+		 <img src="../static/icon/orange.svg" class="App-logo" alt="logo" />
+		 <p class="App-title">calory</p>
+		</center>
 	 </div>
 	 <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}" > -->
 	 <!-- <center><img src="../static/downloads/orange.svg" class="App-logo" alt="logo" /></center> -->
 	 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="{{ url_for('index')}}" >Home</a>
 			  <ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-				  <a class="navbar-brand" href="{{ url_for('upload') }}">Upload</a>
-				</li> 
+						<div class="container">
+								<div class="row">
+									<div class="col-sm-2">
+									</div>
+									<div class="col-sm-8">
+											<li class="nav-item">
+													<a class="navbar-brand" href="{{ url_for('upload') }}">Upload</a>
+												</li> 
+									</div>
+									<div class="col-sm-2">
+									</div>
+								</div>
+								</div>	
+			
+				</ul>
 			</div>
 	 </nav>
 
